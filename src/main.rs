@@ -41,7 +41,10 @@ fn main() -> anyhow::Result<()> {
         .context("could not decode forecast")?;
 
     for period in forecast_res.properties.periods.iter().take(3) {
-        println!("{}\n  {}\n", period.name, period.detailed_forecast);
+        println!(
+            "{}: {}\n  {}\n",
+            period.name, period.short_forecast, period.detailed_forecast
+        );
     }
 
     Ok(())
@@ -71,5 +74,6 @@ struct GridpointForecast {
 #[serde(rename_all = "camelCase")]
 struct GridpointForecastPeriod {
     name: String,
+    short_forecast: String,
     detailed_forecast: String,
 }
