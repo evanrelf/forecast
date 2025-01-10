@@ -4,15 +4,15 @@ use clap::Parser as _;
 #[derive(clap::Parser, Debug)]
 struct Args {
     /// Latitude
-    #[clap(long, allow_hyphen_values = true)]
+    #[clap(long, env = "FORECAST_LATITUDE", allow_hyphen_values = true)]
     lat: f32,
 
     /// Longitude
-    #[clap(long, allow_hyphen_values = true)]
+    #[clap(long, env = "FORECAST_LONGITUDE", allow_hyphen_values = true)]
     lon: f32,
 
     /// User-Agent
-    #[clap(long)]
+    #[clap(long, env = "FORECAST_USER_AGENT")]
     user_agent: String,
 }
 
