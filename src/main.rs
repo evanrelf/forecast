@@ -40,17 +40,14 @@ fn main() -> anyhow::Result<()> {
         .json()
         .context("failed to decode forecast")?;
 
-    let forecast_text = &forecast_res
-        .properties
-        .periods
-        .first()
-        .context("forecast has no periods")?
-        .detailed_forecast;
-
-    println!("{forecast_text}");
+    for period in forecast_res.properties.periods.iter().take(3) {
+        println!("{}\n  {}\n", period.name, period.detailed_forecast);
+    }
 
     Ok(())
 }
+
+// https://www.weather.gov/documentation/services-web-api
 
 #[derive(serde::Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -73,5 +70,6 @@ struct GridpointForecast {
 #[derive(serde::Deserialize)]
 #[serde(rename_all = "camelCase")]
 struct GridpointForecastPeriod {
+    name: String,
     detailed_forecast: String,
 }
