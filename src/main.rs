@@ -28,17 +28,17 @@ fn main() -> anyhow::Result<()> {
         ))
         .header("user-agent", &args.user_agent)
         .send()
-        .context("failed to request point")?
+        .context("request for point failed")?
         .json()
-        .context("failed to decode point")?;
+        .context("could not decode point")?;
 
     let forecast_res: GeoJson<GridpointForecast> = client
         .get(point_res.properties.forecast)
         .header("user-agent", &args.user_agent)
         .send()
-        .context("failed to request forecast")?
+        .context("request for forecast failed")?
         .json()
-        .context("failed to decode forecast")?;
+        .context("could not decode forecast")?;
 
     for period in forecast_res.properties.periods.iter().take(3) {
         println!("{}\n  {}\n", period.name, period.detailed_forecast);
